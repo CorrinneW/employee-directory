@@ -1,15 +1,19 @@
 import React from "react";
 import "./style.css";
+import Card from '../Card';
+import Container from '../Container';
 
 function SearchResults(props) {
   return (
-    <ul className="list-group search-results">
-      {props.results.map(result => (
-        <li key={result} className="list-group-item">
-          <img alt="Employee" src={result} className="img-fluid" />
+    <Container>
+      <ul className="list-group search-results">
+        <li>
+          {props.results.map(result => (
+            <Card key={result} />
+          ))}
         </li>
-      ))}
-    </ul>
+      </ul>
+    </Container>
   );
 }
 
