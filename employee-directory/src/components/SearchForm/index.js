@@ -8,18 +8,18 @@ function SearchForm(props) {
                 <label htmlFor='name'>Search by Employee Name:</label>
                 <input
                     value={props.search}
-                    onChange={props.handleInputChange}
+                    onChange={props.filterEmployees}
                     name="name"
                     list="names"
                     type="text"
                     className="form-control"
                     placeholder="Enter an employee name"
                     id="name" />
-                <datalist id="names">
+                {/* <datalist id="names">
                     {props.names.map(name => (
                         <option value={name} key={name} />
                     ))}
-                </datalist>
+                </datalist> */}
                 <button type="submit" onClick={props.handleFormSubmit} className="btn btn-success">
                     Search
                 </button>
