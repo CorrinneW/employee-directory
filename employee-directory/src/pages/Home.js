@@ -9,7 +9,7 @@ class Home extends Component {
     state = {
         results: [],
         search: "",
-        names: ["Harold"]
+        names: []
     }
     componentDidMount() {
         this.getAllEmployees()
