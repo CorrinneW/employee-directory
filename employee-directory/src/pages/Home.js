@@ -3,7 +3,6 @@ import API from '../utils/API';
 import Container from '../components/Container';
 import Card from '../components/Card';
 import SearchForm from '../components/SearchForm';
-import SearchResults from '../components/SearchResults';
 
 class Home extends Component {
     state = {
@@ -19,30 +18,33 @@ class Home extends Component {
         API.getRandomUsers()
             .then(res => {
                 const results = res.data.results;
-                this.setState({ results, names: results.map(employee => employee.name.first + ' ' + employee.name.last) })
+                this.setState({ results, names: results.map(employee => employee.name.first + ' ' + employee.name.last) });
             }
             )
             .catch(err => console.log(err))
     }
 
-    filterEmployees = (e) => {
-        this.setState({
-            search: e.target.value
-        }, () => {
-            const filterEmployees = this.state.results.filter(employee => employee.name.first.toLowerCase().includes(this.state.search.toLowerCase()))
-            console.log(filterEmployees)
-        })
-    }
+    handleInputChange = (event) => { this.setState({ search: event.target.value })}
 
-    handleFormSubmit = () => {
-        console.log('Hello')
+    handleFormSubmit = event => {
+        event.preventDefault();
+        const searchResults = this.state.results.filter(employee => 
+            employee.name.first.toLowerCase().includes(this.state.search.toLowerCase())
+            || employee.name.last.toLowerCase().includes(this.state.search.toLowerCase())
+        )
+        this.setState({results: searchResults})
     }
+    
 
     render() {
-        // console.log(this.state.names)
         return (
             <Container>
-                <SearchForm filterEmployees={this.filterEmployees} search={this.state.search} />
+                <SearchForm 
+                handleInputChange={this.handleInputChange}
+                handleFormSubmit={this.handleFormSubmit}
+                search={this.state.search}
+                />
+
                 {this.state.results.map(employee => (
                     <Card
                         picture={employee.picture.large}
@@ -55,10 +57,10 @@ class Home extends Component {
                         phone={employee.phone}
                         cell={employee.cell}
                         names={this.state.names}
-                        handleFormSubmit={this.handleFormSubmit}
                     />
                 )
                 )}
+
             </Container>
         )
     }

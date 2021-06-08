@@ -8,7 +8,7 @@ function SearchForm(props) {
                 <label htmlFor='name'>Search by Employee Name:</label>
                 <input
                     value={props.search}
-                    onChange={props.filterEmployees}
+                    onChange={props.handleInputChange}
                     name="name"
                     list="names"
                     type="text"
