@@ -1,7 +1,9 @@
 import React from "react";
 import "./style.css";
+import SearchFilter from '../SearchFilter';
 
 function SearchForm(props) {
+
     return (
         <form className="search">
             <div className="form-group">
@@ -14,12 +16,9 @@ function SearchForm(props) {
                     type="text"
                     className="form-control"
                     placeholder="Enter an employee name"
-                    id="name" />
-                {/* <datalist id="names">
-                    {props.names.map(name => (
-                        <option value={name} key={name} />
-                    ))}
-                </datalist> */}
+                    id="name"
+                />
+                <SearchFilter onClick={props.handleFilter} locations={props.locations}/>
                 <button type="submit" onClick={props.handleFormSubmit} className="btn btn-success">
                     Search
                 </button>

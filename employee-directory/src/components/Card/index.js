@@ -15,7 +15,7 @@ function Card(props) {
 
         <div id="collapse" className="collapsed" aria-labelledby="heading" data-parent="#accordion">
           <div className="card-body">
-            <div className="card-img-top" src={props.picture} alt={props.firstName + ' ' + props.lastName} />
+            <img className="mw-100" src={props.picture} alt={props.firstName + ' ' + props.lastName} />
             <div className="card-body">
               <h5 className="card-title">Contact Information:</h5>
               <ul className="list-group list-group-flush">

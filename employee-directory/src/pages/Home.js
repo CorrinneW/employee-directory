@@ -8,7 +8,9 @@ class Home extends Component {
     state = {
         results: [],
         search: "",
-        names: []
+        names: [],
+        locations: [],
+        filteredLocation: [],
     }
     componentDidMount() {
         this.getAllEmployees()
@@ -18,31 +20,42 @@ class Home extends Component {
         API.getRandomUsers()
             .then(res => {
                 const results = res.data.results;
-                this.setState({ results, names: results.map(employee => employee.name.first + ' ' + employee.name.last) });
-            }
-            )
+                //get only unique locations for state.locations
+                const allLocations = results.map(employee => employee.location.state)
+                const uniqueLocations = [...new Set(allLocations)]
+                this.setState({ 
+                    results, 
+                    names: results.map(employee => employee.name.first + ' ' + employee.name.last),
+                    locations: uniqueLocations               
+                })
+            })
             .catch(err => console.log(err))
     }
 
-    handleInputChange = (event) => { this.setState({ search: event.target.value })}
+    handleInputChange = (event) => { this.setState({ search: event.target.value }) }
+
+    handleFilter = (event) => { this.setState({ filteredLocation: event.target.value }); console.log(event.target.value) }
+
+    handleSort = () => { }
 
     handleFormSubmit = event => {
         event.preventDefault();
-        const searchResults = this.state.results.filter(employee => 
+        const searchResults = this.state.results.filter(employee =>
             employee.name.first.toLowerCase().includes(this.state.search.toLowerCase())
             || employee.name.last.toLowerCase().includes(this.state.search.toLowerCase())
         )
-        this.setState({results: searchResults})
+        this.setState({ results: searchResults })
     }
-    
 
     render() {
         return (
             <Container>
-                <SearchForm 
-                handleInputChange={this.handleInputChange}
-                handleFormSubmit={this.handleFormSubmit}
-                search={this.state.search}
+                <SearchForm
+                    handleInputChange={this.handleInputChange}
+                    handleFormSubmit={this.handleFormSubmit}
+                    handleFilter={this.handleFilter}
+                    handleSort={this.handleSort}
+                    locations={this.state.locations}
                 />
 
                 {this.state.results.map(employee => (
