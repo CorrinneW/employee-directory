@@ -3,6 +3,7 @@ import API from '../utils/API';
 import Container from '../components/Container';
 import Card from '../components/Card';
 import SearchForm from '../components/SearchForm';
+import SearchFilter from '../components/SearchFilter';
 
 class Home extends Component {
     state = {
@@ -10,7 +11,6 @@ class Home extends Component {
         search: "",
         names: [],
         locations: [],
-        filteredLocation: [],
     }
     componentDidMount() {
         this.getAllEmployees()
@@ -23,20 +23,18 @@ class Home extends Component {
                 //get only unique locations for state.locations
                 const allLocations = results.map(employee => employee.location.state)
                 const uniqueLocations = [...new Set(allLocations)]
+                const sortedLocations = uniqueLocations.sort()
                 this.setState({ 
                     results, 
                     names: results.map(employee => employee.name.first + ' ' + employee.name.last),
-                    locations: uniqueLocations               
+                    locations: sortedLocations               
                 })
             })
             .catch(err => console.log(err))
     }
 
+    //search function
     handleInputChange = (event) => { this.setState({ search: event.target.value }) }
-
-    handleFilter = (event) => { this.setState({ filteredLocation: event.target.value }); console.log(event.target.value) }
-
-    handleSort = () => { }
 
     handleFormSubmit = event => {
         event.preventDefault();
@@ -47,16 +45,25 @@ class Home extends Component {
         this.setState({ results: searchResults })
     }
 
+    //filter functions
+    handleFilter = event => {
+        event.preventDefault();
+        const filterResults = this.state.results.filter(employee =>
+            employee.location.state === event.target.innerHTML   
+        )
+        this.setState({ results: filterResults })
+    }
+    //sort functions
+    handleSort = () => { }
+
     render() {
         return (
             <Container>
                 <SearchForm
                     handleInputChange={this.handleInputChange}
                     handleFormSubmit={this.handleFormSubmit}
-                    handleFilter={this.handleFilter}
-                    handleSort={this.handleSort}
-                    locations={this.state.locations}
                 />
+                <SearchFilter handleFilter={this.handleFilter} locations={this.state.locations}/>
 
                 {this.state.results.map(employee => (
                     <Card
