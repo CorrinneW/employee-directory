@@ -23,7 +23,7 @@ function SearchFilter(props) {
             }
         >
             <ListItem button onClick={handleClick}>
-                <ListItemText primary="Select State" />
+                <ListItemText primary="Select State  🔽" />
             </ListItem>
             <Collapse in={!open} timeout="auto" unmountOnExit>
                 <List component="div" onClick={handleClick}>
@@ -31,7 +31,6 @@ function SearchFilter(props) {
                         <ListItem
                             button
                             onClick={props.handleFilter}
-
                         >
                             <ListItemText>
                                 {state}
