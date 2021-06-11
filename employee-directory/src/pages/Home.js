@@ -35,7 +35,7 @@ class Home extends Component {
             .catch(err => console.log(err))
     };
 
-    //search function
+    //search functions
     handleInputChange = (event) => { this.setState({ search: event.target.value }) };
 
     handleFormSubmit = event => {
@@ -55,21 +55,21 @@ class Home extends Component {
         );
         this.setState({ results: filterResults });
     };
+
     //sort function
     handleSort = event => {
         event.preventDefault();
         const sortSelection = event.target.value;
 
-        const sortResult = [];
+        const sortResult = this.state.results;
 
         if(sortSelection === "firstname") {
-            sortResult.push(this.state.results.sort((a, b) => (a.name.first > b.name.first) ? 1: -1))
+           sortResult.sort((a, b) => (a.name.first > b.name.first) ? 1: -1)
         } else{
-            sortResult.push(this.state.results.sort((a, b) => (a.name.last > b.name.last) ? 1: -1))
+            sortResult.sort((a, b) => (a.name.last > b.name.last) ? 1: -1)
         }
 
         this.setState({ results: sortResult })
-        console.log(this.state.results)
     };
 
 
